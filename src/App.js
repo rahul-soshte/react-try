@@ -4,16 +4,8 @@ import Post from './components/Post';
 function App() {
   return (
     <div className="App">
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-
+      <Post author = "tom brady"/>
+      <Post author = "snoop dog"/>
     </div>
   );
 }
