@@ -1,11 +1,10 @@
 import './App.css';
-import Post from './components/Post';
+import PostList from './components/PostList';
 
 function App() {
   return (
     <div className="App">
-      <Post author = "tom brady"/>
-      <Post author = "snoop dog"/>
+      <PostList />
     </div>
   );
 }
