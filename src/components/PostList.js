@@ -1,35 +1,44 @@
-import Post from "./Post";
-import classes from "./PostList.module.css";
-import NewPost  from "./NewPost";
-import { useState } from "react";
-import Modal from "./Modal";
-function PostList({isPosting, onStopPosting}) {
+import { useState, useEffect } from 'react';
 
-  
+import Post from './Post';
+import NewPost from './NewPost';
+import Modal from './Modal';
+import classes from './PostList.module.css';
 
+function PostsList({ isPosting, onStopPosting }) {
   const [posts, setPosts] = useState([]);
 
-  function addPostHandler(postData) {
-    fetch("http://localhost:8000/posts", {
-      method: "POST",
+  useEffect(() => {
+    async function fetchPosts() {
+
+      const response = await fetch('http://localhost:8000/posts')
+      const resData = await response.json();
+      setPosts(resData.posts || []);
+    }
+
+    fetchPosts();
+  }, []);
+
+  async function addPostHandler(postData) {
+    let response = await fetch('http://localhost:8000/posts', {
+      method: 'POST',
       body: JSON.stringify(postData),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
+    console.log(response);
+
     setPosts((existingPosts) => [postData, ...existingPosts]);
   }
 
- 
   return (
-      <>
+    <>
       {isPosting && (
         <Modal onClose={onStopPosting}>
-          <NewPost onCancel={onStopPosting}  onAddPost={addPostHandler} 
-            />
+          <NewPost onCancel={onStopPosting} onAddPost={addPostHandler} />
         </Modal>
       )}
-     
       {posts.length > 0 && (
         <ul className={classes.posts}>
           {posts.map((post) => (
@@ -43,8 +52,8 @@ function PostList({isPosting, onStopPosting}) {
           <p>Start adding some!</p>
         </div>
       )}
-      </>
-      );
+    </>
+  );
 }
 
-export default PostList;
+export default PostsList;
