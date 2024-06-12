@@ -20,8 +20,13 @@ function NewPost({onCancel, onAddPost}) {
       body: enteredBody,
       author: enteredAuthor
     };
-    onAddPost(postData);
-    onCancel();
+    fetch('http://localhost:8080/posts', {
+      method: 'POST',
+      body: JSON.stringify(postData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });    
   }
 
 
